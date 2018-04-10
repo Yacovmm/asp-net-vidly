@@ -1,0 +1,34 @@
+﻿@*<div class="navbar navbar-inverse navbar-fixed-top">*@
+@*    <div class="container">*@
+@*        <div class="navbar-header">*@
+@*            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">*@
+@*                <span class="navbar-toggler-icon"></span>*@
+@*                <span class="icon-bar"></span>*@
+@*                <span class="icon-bar"></span>*@
+@*            </button>*@
+@*            @Html.ActionLink("Vidly", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+@*        </div>*@
+@*        <div class="collapse navbar-collapse">*@
+@*            <ul class="navbar-nav mr-auto">*@
+@*                <li class="nav-item active">@Html.ActionLink("Home", "Index", "Home")</li>*@
+@*                <li class="nav-item">@Html.ActionLink("About", "About", "Home")</li>*@
+@*                <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+@*            </ul>*@
+@*            @Html.Partial("_LoginPartial")*@
+@*        </div>*@
+@*    </div>*@
+@*</div>*@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    @Html.ActionLink("Vidly", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            @Html.ActionLink("Customers", "Index", "Customers", new { area = "" }, new { @class = "nav-item nav-link" })
+            @Html.ActionLink("Movies", "Index", "Movies", new { area = "" }, new { @class = "nav-item nav-link" })
+            <a class="nav-item nav-link" href="#">Features</a>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</nav>
