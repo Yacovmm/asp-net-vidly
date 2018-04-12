@@ -225,6 +225,14 @@
     <Compile Include="Migrations\201804111950055_ApplyAnnotationToCustomerName.Designer.cs">
       <DependentUpon>201804111950055_ApplyAnnotationToCustomerName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804121941330_AddRentTypeToMemberShipType.cs" />
+    <Compile Include="Migrations\201804121941330_AddRentTypeToMemberShipType.Designer.cs">
+      <DependentUpon>201804121941330_AddRentTypeToMemberShipType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804121943377_PopulateRentTypeString.cs" />
+    <Compile Include="Migrations\201804121943377_PopulateRentTypeString.Designer.cs">
+      <DependentUpon>201804121943377_PopulateRentTypeString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -337,6 +345,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804111950055_ApplyAnnotationToCustomerName.resx">
       <DependentUpon>201804111950055_ApplyAnnotationToCustomerName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804121941330_AddRentTypeToMemberShipType.resx">
+      <DependentUpon>201804121941330_AddRentTypeToMemberShipType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804121943377_PopulateRentTypeString.resx">
+      <DependentUpon>201804121943377_PopulateRentTypeString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
