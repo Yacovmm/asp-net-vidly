@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
+using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
@@ -24,8 +25,19 @@ namespace Vidly.Controllers
             _context.Dispose();
         }
 
+        public ActionResult New()
+        {
+            var memberShipTypes = _context.MemberShipTypes.ToList();
 
+            var viewModel = new NewCustomerViewModel
+            {
+                MemberShipTypes = memberShipTypes
+            };
 
+            return View(viewModel);
+        }
+
+        
         // GET: Customers
         public ViewResult Index()
         {
@@ -36,7 +48,7 @@ namespace Vidly.Controllers
 
         public ActionResult Details(int id)
         {
-            var customers = _context.Customers.Include(c => c.MemberShipType.RentType).SingleOrDefault(c => c.Id == id);
+            var customers = _context.Customers.Include(c => c.MemberShipType).SingleOrDefault(c => c.Id == id);
 
             if (customers == null)
                 return HttpNotFound();

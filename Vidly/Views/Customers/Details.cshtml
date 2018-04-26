@@ -6,3 +6,12 @@
 }
 
 <h2>@Model.Name</h2>
+
+<ul>
+    <li>MemberShip:  @Model.MemberShipType.RentType</li>
+    
+    @if (Model.BirthDate.HasValue)
+    {
+        <li>@Model.BirthDate.Value</li>
+    }
+</ul>
