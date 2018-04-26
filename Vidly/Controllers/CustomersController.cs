@@ -25,16 +25,42 @@ namespace Vidly.Controllers
             _context.Dispose();
         }
 
+
         public ActionResult New()
         {
             var memberShipTypes = _context.MemberShipTypes.ToList();
 
-            var viewModel = new NewCustomerViewModel
+            var viewModel = new CustomerFormViewModel
             {
                 MemberShipTypes = memberShipTypes
             };
 
-            return View(viewModel);
+            return View("CustomerForm", viewModel);
+        }
+
+
+        [HttpPost]
+        public ActionResult Save(Customer customer)
+        {
+            if (customer.Id == 0)
+            {
+                _context.Customers.Add(customer);
+            }
+            else
+            {
+                var customerInDb = _context.Customers.Single(x => x.Id == customer.Id);
+
+//                TryUpdateModel(customerInDb);
+                customerInDb.Name = customer.Name;
+                customerInDb.BirthDate = customer.BirthDate;
+                customerInDb.MemberShipTypeId = customer.MemberShipTypeId;
+                customerInDb.IsSubscribedToNewsLetter = customer.IsSubscribedToNewsLetter;
+            }
+
+            
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Customers");
         }
 
         
@@ -66,5 +92,22 @@ namespace Vidly.Controllers
 //                new Customer { Id = 2, Name = "Mary Williams" }
 //            };
 //        }
+        public ActionResult Edit(int id)
+        {
+            var customer = _context.Customers.SingleOrDefault(x => x.Id == id);
+
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new CustomerFormViewModel
+            {
+                Customer = customer,
+                MemberShipTypes = _context.MemberShipTypes.ToList()
+            };
+
+            return View("CustomerForm", viewModel);
+        }
     }
 }
