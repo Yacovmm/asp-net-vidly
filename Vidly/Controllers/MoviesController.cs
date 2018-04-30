@@ -24,43 +24,79 @@ namespace Vidly.Controllers
             _context.Dispose();
         }
 
-//        private IEnumerable<Movie> getMovies()
-//        {
-//            return new List<Movie>
-//            {
-//                new Movie(){Id = 1, Name = "Shrek"},
-//                new Movie(){Id = 2, Name = "Wall-e"}
-//            };
-//        }
+        //        private IEnumerable<Movie> getMovies()
+        //        {
+        //            return new List<Movie>
+        //            {
+        //                new Movie(){Id = 1, Name = "Shrek"},
+        //                new Movie(){Id = 2, Name = "Wall-e"}
+        //            };
+        //        }
 
         // GET: Movies
-        public ActionResult Random()
+        //        public ActionResult Random()
+        //        {
+        //            var movie = new Movie() {Name = "Shrek!"};
+        //            var customers = new List<Customer>
+        //            {
+        //                new Customer() {Name = "Customer 1"},
+        //                new Customer() {Name = "Customer 2"}
+        //            };
+        //
+        //            var viewModel = new RandomMovieViewModel
+        //            {
+        //                Movie = movie,
+        //                Customers = customers
+        //            };
+        //
+        //
+        //            return View(viewModel);
+        //            return Content("Hello world!");
+        //            return HttpNotFound();
+        //            return new EmptyResult();
+
+        //            return RedirectToAction("Index", "Home", new {page = 1, sortBy = "name"});
+        //        }
+
+        public ViewResult New()
         {
-            var movie = new Movie() {Name = "Shrek!"};
-            var customers = new List<Customer>
+            var GenreList = _context.Genre.ToList();
+
+            var viewModel = new MovieFormViewModel()
             {
-                new Customer() {Name = "Customer 1"},
-                new Customer() {Name = "Customer 2"}
+                Genre = GenreList
             };
 
-            var viewModel = new RandomMovieViewModel
-            {
-                Movie = movie,
-                Customers = customers
-            };
-
-
-            return View(viewModel);
-//            return Content("Hello world!");
-//            return HttpNotFound();
-//            return new EmptyResult();
-            
-//            return RedirectToAction("Index", "Home", new {page = 1, sortBy = "name"});
+            return View("MovieForm", viewModel);
         }
+
+        [HttpPost]
+        public ActionResult Save(Movie movie)
+        {
+            _context.Movies.Add(movie);
+            _context.SaveChanges();
+
+            
+            return RedirectToAction("Index", "Movies");
+        }
+
 
         public ActionResult Edit(int id)
         {
-            return Content("id= " + id);
+            var movie = _context.Movies.SingleOrDefault(x => x.Id == id);
+
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new MovieFormViewModel()
+            {
+                Movie = movie,
+                Genre = _context.Genre.ToList()
+            };
+
+            return View("MovieForm", viewModel);
         }
 
         // movies
