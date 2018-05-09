@@ -71,9 +71,35 @@ namespace Vidly.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
-            _context.Movies.Add(movie);
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new MovieFormViewModel(movie)
+                {
+                    Genre = _context.Genre.ToList()
+                };
+
+                return View("MovieForm", viewModel);
+            }
+
+            if (movie.Id == 0)
+            {
+                movie.DateAdded = DateTime.Now;
+                _context.Movies.Add(movie);
+
+            }
+            else
+            {
+                var MoviesIndb = _context.Movies.Single(x => x.Id == movie.Id);
+                MoviesIndb.Name = movie.Name;
+                MoviesIndb.GenreId = movie.GenreId;
+                MoviesIndb.NumberInStock = movie.NumberInStock;
+                MoviesIndb.ReleaseDate = movie.ReleaseDate;
+            }
+
+            
             _context.SaveChanges();
 
             
@@ -90,9 +116,8 @@ namespace Vidly.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new MovieFormViewModel()
+            var viewModel = new MovieFormViewModel(movie)
             {
-                Movie = movie,
                 Genre = _context.Genre.ToList()
             };
 
@@ -102,7 +127,7 @@ namespace Vidly.Controllers
         // movies
         public ViewResult Index()
         {
-            var movies = _context.Movies.Include(x => x.GenreType).ToList();
+            var movies = _context.Movies.Include(x => x.Genre).ToList();
 
             return View(movies);
         }
@@ -110,7 +135,7 @@ namespace Vidly.Controllers
         //details
         public ActionResult Details(int id)
         {
-            var movies = _context.Movies.Include(x => x.GenreType).SingleOrDefault(x => x.Id == id);
+            var movies = _context.Movies.Include(x => x.Genre).SingleOrDefault(x => x.Id == id);
 
             if (movies == null)
                 return HttpNotFound();
