@@ -21,7 +21,7 @@ namespace Vidly.Dtos
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [Min18YearsIfAMember]
+//        [Min18YearsIfAMember]
         public DateTime? BirthDate { get; set; }
     }
 }
