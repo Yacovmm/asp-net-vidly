@@ -22,9 +22,11 @@ namespace Vidly.Controllers.Api
 
 
         //GET /api/customers
-        public IEnumerable<CustomerDto> GetCustomers()
+        public IHttpActionResult GetCustomers()
         {
-            return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            var customersDtos = _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+
+            return Ok(customersDtos);
         }
 
         //GET /api/customers/1
@@ -57,37 +59,41 @@ namespace Vidly.Controllers.Api
 
         // PUT /api/customers/1
         [HttpPut]
-        public void UpdateCustomer(int id, CustomerDto customerDto)
+        public IHttpActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpException(HttpStatusCode.BadRequest.ToString());
+                return BadRequest();
 
             var customerInDb = _context.Customers.SingleOrDefault(x => x.Id == id);
 
             if (customerInDb == null)
-                throw new HttpException(HttpStatusCode.NotFound.ToString());
+                return NotFound();
 
-            Mapper.Map<CustomerDto, Customer>(customerDto, customerInDb);
+            Mapper.Map(customerDto, customerInDb);
 //            customerInDb.Name = customerDto.Name;
 //            customerInDb.BirthDate = customerDto.BirthDate;
 //            customerInDb.IsSubscribedToNewsLetter = customerDto.IsSubscribedToNewsLetter;
 //            customerInDb.MemberShipTypeId = customerDto.MemberShipTypeId;
 
             _context.SaveChanges();
+
+            return Ok();
         }
 
         // DELETE /api/customers/1
         [HttpDelete]
-        public void DeleteCustomer(int id)
+        public IHttpActionResult DeleteCustomer(int id)
         {
             var customerInDb = _context.Customers.SingleOrDefault(x => x.Id == id);
 
             if (customerInDb == null)
-                throw new HttpException(HttpStatusCode.NotFound.ToString());
+                return NotFound();
 
             _context.Customers.Remove(customerInDb);
 
             _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
