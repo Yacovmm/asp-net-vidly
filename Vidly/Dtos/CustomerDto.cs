@@ -19,6 +19,8 @@ namespace Vidly.Dtos
 
         public byte MemberShipTypeId { get; set; }
 
+        public MemberShipTypeDto MemberShipType { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
 //        [Min18YearsIfAMember]
